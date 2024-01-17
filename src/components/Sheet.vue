@@ -1,76 +1,85 @@
 <template>
   <div class="sheet">
-    <h1 @click="nameModalVisible=true">{{ state.name }} 🖊️</h1>
-    <h2 @click="professionModalVisible=true">{{ professionName || 'Выбери профессию' }} 🖊️</h2>
-    <table>
-      <tr v-for="stat in formattedStats" :key="stat.id">
-        <td align="left">{{ stat.name }}</td>
-        <td>{{ stat.value }}</td>
-        <td @click="editStat(stat.id)">🖊️</td>
-        <td @click="rollStat(stat.id)"><span v-if="stat.value">🎲</span></td>
-      </tr>
-    </table>
-    <br/>
-    <table>
-      <tr>
-        <td align="left">Здоровье</td>
-        <td width="50"><input v-model="state.hp" type="number"></td>
-        <td width="20"></td>
-        <td @click="state.hp++">➕</td>
-        <td @click="state.hp--">➖</td>
-      </tr>
-      <tr>
-        <td align="left">Удача</td>
-        <td width="50"><input v-model="state.fortune" type="number"></td>
-        <td></td>
-        <td @click="resetFortune">⌛</td>       
-        <td></td>
-      </tr>
-      <tr>
-        <td align="left">Бонус от удачи</td>
-        <td width="50" style="font-size: 24px; height: 64px;">{{ fortuneBonus }}</td>
-        <td width="20"></td>
-        <td > <span v-if="state.fortune > 0 && fortuneBonus <3" @click="handleFortune(1)">➕</span></td>
-        <td > <span v-if="fortuneBonus>0" @click="handleFortune(-1)">➖</span></td>
-      </tr>
-    </table>
-    <template v-if="skills.length">
-      <h3>Навыки</h3>
-      <table>
-        <tr v-for="skill in skills" :key="skill.id"> 
-          <td align="left" @click="showDescription(skill)">{{ skill.name }} </td>
-          <template v-if="skill.maxUses">
-            <td >{{ state.skillUses[skill.id] }}</td>
-            <td width="20">
-              <span 
-                v-if="state.skillUses[skill.id] < skill.maxUses"
-                @click="state.skillUses[skill.id]++"
-              >➕</span>
-            </td>
-            <td width="20">
-              <span 
-                v-if="state.skillUses[skill.id] > 0"
-                @click="state.skillUses[skill.id]--"
-              >➖</span>
-            </td>
-          </template>
-        </tr>
-      </table>
-    </template>
-    <h3>Причуды</h3>
-    <table v-if="state.quirks.length">
-      <tr v-for="quirk in state.quirks" :key="quirk.id">
-        <td><input type="text" v-model="quirk.name"></td>
-        <td width="10"></td>
-        <td width="20"><input type="number" v-model="quirk.bonus"></td>
-        <td width="10"/>
-        <td width="40"><input type="checkbox" v-model="quirk.inUse"></td>
-        <td width="40" @click="removeQuirk(quirk.id)">❌</td>
-      </tr>
-    </table>
-    <button class="add-quirk-button" @click="addQuirk">Добавить</button>
-    <button class="global-save-button" @click="globalSave">Сохранить</button>
+    <div class="grid">
+      <div class="grid-item">
+        <h1 @click="nameModalVisible=true">{{ state.name }} 🖊️</h1>
+        <h2 @click="professionModalVisible=true">{{ professionName || 'Выбери профессию' }} 🖊️</h2>
+      </div>
+      <div class="grid-item"/>
+      <div class="grid-item">
+        <table>
+          <tr v-for="stat in formattedStats" :key="stat.id">
+            <td align="left">{{ stat.name }}</td>
+            <td>{{ stat.value }}</td>
+            <td @click="editStat(stat.id)">🖊️</td>
+            <td @click="rollStat(stat.id)"><span v-if="stat.value">🎲</span></td>
+          </tr>
+        </table>
+        <br/>
+        <table>
+          <tr>
+            <td align="left">Здоровье</td>
+            <td width="50"><input v-model="state.hp" type="number"></td>
+            <td width="20"></td>
+            <td @click="state.hp++">➕</td>
+            <td @click="state.hp--">➖</td>
+          </tr>
+          <tr>
+            <td align="left">Удача</td>
+            <td width="50"><input v-model="state.fortune" type="number"></td>
+            <td></td>
+            <td @click="resetFortune">⌛</td>       
+            <td></td>
+          </tr>
+          <tr>
+            <td align="left">Бонус от удачи</td>
+            <td width="50" style="font-size: 24px; height: 64px;">{{ fortuneBonus }}</td>
+            <td width="20"></td>
+            <td > <span v-if="state.fortune > 0 && fortuneBonus <3" @click="handleFortune(1)">➕</span></td>
+            <td > <span v-if="fortuneBonus>0" @click="handleFortune(-1)">➖</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="grid-item">
+        <h3>Навыки</h3>
+        <table v-if="skills.length">
+          <tr v-for="skill in skills" :key="skill.id"> 
+            <td align="left" @click="showDescription(skill)">{{ skill.name }} </td>
+            <template v-if="skill.maxUses">
+              <td >{{ state.skillUses[skill.id] }}</td>
+              <td width="20">
+                <span 
+                  v-if="state.skillUses[skill.id] < skill.maxUses"
+                  @click="state.skillUses[skill.id]++"
+                >➕</span>
+              </td>
+              <td width="20">
+                <span 
+                  v-if="state.skillUses[skill.id] > 0"
+                  @click="state.skillUses[skill.id]--"
+                >➖</span>
+              </td>
+            </template>
+          </tr>
+        </table>
+        <p v-else>Навыки пока не получены</p>
 
+        <h3>Причуды</h3>
+        <table v-if="state.quirks.length">
+          <tr v-for="quirk in state.quirks" :key="quirk.id">
+            <td><input type="text" v-model="quirk.name"></td>
+            <td width="10"></td>
+            <td width="40"><input type="number" v-model="quirk.bonus"></td>
+            <td width="10"/>
+            <td width="40"><input type="checkbox" v-model="quirk.inUse"></td>
+            <td width="40" @click="removeQuirk(quirk.id)">❌</td>
+          </tr>
+        </table>
+        <p v-else>Причуды пока не добавлены</p>
+        <button class="add-quirk-button" @click="addQuirk">Добавить</button>
+      </div>
+    </div>
+    <button class="global-save-button" @click="globalSave">Сохранить</button>
     <name-input 
       :visible="nameModalVisible" 
       :name="state.name" 
@@ -264,10 +273,30 @@ export default {
   margin: auto;
 }
 .global-save-button {
+  margin: auto;
   margin-top: 20px;
+  max-width: 300px;
 }
 .sheet {
   margin: 20px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-item {
+  margin: 0 80px;
+}
+
+@media (max-width: 900px) {
+  .grid { 
+    grid-template-columns: 1fr;
+  }
+
+  .grid-item {
+    margin: 0 ;
+  }
 }
 table {
   width: 100%;

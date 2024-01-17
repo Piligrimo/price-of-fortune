@@ -21,7 +21,8 @@
     background-color: rgba(0, 0, 0, 0.7) ;
     height: 100vh;
     width: 100vw;
-    position: absolute;
+    position: fixed;
+    padding: 20px;
     top: 0;
     left: 0;
   }
@@ -29,7 +30,8 @@
     background-color: white;
     border-radius: 5px;
     padding: 20px;
-    margin: 70px 20px;
+    margin: 70px auto;
+    max-width: 400px;
   }
 </style>
   
