@@ -22,7 +22,6 @@
     height: 100vh;
     width: 100vw;
     position: fixed;
-    padding: 20px;
     top: 0;
     left: 0;
   }
@@ -33,5 +32,11 @@
     margin: 70px auto;
     max-width: 400px;
   }
+
+@media (max-width: 600px) {
+  .modal__card {
+    max-width: 200px;
+  }
+}
 </style>
   
